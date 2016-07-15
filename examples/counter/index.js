@@ -1,15 +1,3 @@
-preact-flyd
-=========================
-
-Inspired by [theadam/react-flyd](https://github.com/theadam/react-flyd)
-
-Allows for flyd streams to be embedded directly into JSX, and to update content when the streams fire events.
-
-# Counter Example
-
-```javascript
-/** @jsx h */
-
 import { render } from 'preact';
 import { h } from 'preact-flyd';
 import { stream, scan, merge} from 'flyd';
@@ -29,8 +17,8 @@ function Counter() {
   return (
     <div>
       <div>
-        <button id="plus" onClick={ stream(plus$) }>+</button>
         <button id="minus" onClick={ stream(minus$) }>-</button>
+        <button id="plus" onClick={ stream(plus$) }>+</button>
       </div>
       <div>
         Count: { count$ }
@@ -40,4 +28,3 @@ function Counter() {
 }
 
 render(<Counter />, document.getElementById('root'));
-```
