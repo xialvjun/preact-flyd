@@ -1,6 +1,6 @@
 {
   "name": "preact-flyd",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Helpers to integrate flyd and preact",
   "main": "lib/index.js",
   "scripts": {
