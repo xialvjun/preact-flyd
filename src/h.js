@@ -19,7 +19,7 @@ function wrapChildren(children) {
         if (notValidElement$s.indexOf(child) > -1) {
           return child()
         }
-        return preactH(reactive(), {}, child)
+        return preactH(reactive(), {children$: child})
       })
     }, notValidElement$s)
   }
@@ -27,7 +27,7 @@ function wrapChildren(children) {
     if (!isStream(child)) {
       return child
     }
-    return preactH(reactive(), {}, child)
+    return preactH(reactive(), {children$: child})
   })
 }
 
@@ -39,8 +39,7 @@ export default function h(tag, props, ...children) {
   let defaultProps = props || {}
   let wrappedChildren = wrapChildren(children)
   if (hasStream(defaultProps) || isStream(wrappedChildren)) {
-    defaultProps.children$ = wrappedChildren
-    return preactH(reactive(tag), defaultProps)
+    return preactH(reactive(tag), {...defaultProps, children$: wrappedChildren})
   }
   return preactH(tag, defaultProps, ...wrappedChildren)
 }

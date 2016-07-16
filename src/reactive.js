@@ -6,10 +6,12 @@ export default function reactive(tag='') {
     constructor(props) {
       super(props)
       this.state = {}
+      this.subscribe(props)
     }
 
     componentWillMount() {
-      this.subscribe(this.props)
+      // move `this.subscribe(props)` from `componentWillMount` to `constructor` because preact sometimes run `render` before `componentWillMount` for unknown reason
+      // this.subscribe(props)
     }
 
     componentWillReceiveProps(nextProps) {
@@ -21,13 +23,17 @@ export default function reactive(tag='') {
     }
 
     addPropListener(name, prop$) {
-      return on((value) => {
+      on((value) => {
         // don't re-render if value is the same.
         if (value === this.state[name]) {
           return
         }
         this.setState({ [name]: value })
       }, prop$)
+      // return these prop$ rather than above on$ because we usually create streams in jsx. Just end those on$ will left out those prop$s which will lead to a memory leak.
+      // And since prop$ is the parent of on$, just end prop$ is enough.
+      // And since we will end prop$, user shouldn't use outter streams directly on jsx. Just a stream.map(v => v) is enough.
+      return prop$
     }
 
     subscribe(props) {
@@ -47,18 +53,17 @@ export default function reactive(tag='') {
     }
 
     unsubscribe() {
-      this.subscriptions.forEach(subscription => subscription.end())
+      this.subscriptions.forEach(subscription => subscription.end(true))
       this.state = {}
       this.subscriptions = null
     }
 
     render() {
       const {children$: children, ...props} = {...this.props, ...this.state}
-      const finalProps = {...props, children}
       if (tag) {
-        return h(tag, finalProps)
+        return h(tag, props, ...children)
       }
-      return h(children.nodeName, {...children.attributes, props})
+      return h(children.nodeName, {...children.attributes, props}, ...children.children)
     }
   }
 
