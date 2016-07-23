@@ -13,6 +13,7 @@ function Counter() {
   );
 
   const count$ = scan((x, y) => x + y, 0, action$);
+  plus$(true)
 
   return (
     <div>
@@ -21,7 +22,7 @@ function Counter() {
         <button id="plus" onClick={ stream(plus$) }>+</button>
       </div>
       <div>
-        Count: { count$ }
+        Count: { count$.map(c => c % 2 === 1 ? c+'' : null) }
       </div>
     </div>
   );

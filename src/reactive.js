@@ -1,6 +1,8 @@
 import { Component, h } from 'preact'
 import { isStream, on } from 'flyd'
 
+let VNode = h('').constructor
+
 export default function reactive(tag='') {
   class ReactiveClass extends Component {
     constructor(props) {
@@ -63,7 +65,7 @@ export default function reactive(tag='') {
       if (tag) {
         return h(tag, props, ...children)
       }
-      return h(children.nodeName, {...children.attributes, props}, ...children.children)
+      return children instanceof VNode ? h(children.nodeName, {...children.attributes, props}, ...children.children) : children
     }
   }
 
