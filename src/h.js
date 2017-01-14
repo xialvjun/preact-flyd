@@ -12,6 +12,9 @@ function isValidElement(element) {
 
 function wrapChildren(children) {
   const notValidElement$s = children.filter(child => isStream(child) && !isValidElement(child()));
+  if (children.length===1 && notValidElement$s.length===1) {
+    return notValidElement$s[0];
+  }
   if (notValidElement$s.length > 0) {
     return combine(() => {
       return children.map(child => {
