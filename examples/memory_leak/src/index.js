@@ -68,6 +68,6 @@ render(<App />, document.getElementById('app'))
  * ```
  * Two streams with one value is array and one is vnode(preact render can return it). See the console...
  * 
- * See the difference in the 4 statuses? Well, 1 and 2 have no difference in the console. That's code block effect.
+ * See the difference in the 4 statuses? Well, 1 and 2 have no difference in the console. That's this [code block's](https://github.com/xialvjun/preact-flyd/blob/42ecd42ad474246fd1ea0c404b12ca2afd767cd1/src/h.js#L15-L17) effect.
  * And the problem of the differences of 2, 3, 4 is hard to tell, the best way is to read the source.
  */
